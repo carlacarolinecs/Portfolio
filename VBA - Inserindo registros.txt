@@ -1,0 +1,154 @@
+--Tabela clientes
+
+Private Sub btExecuta_Click()
+
+Dim conn        As New ADODB.Connection
+Dim rs          As New ADODB.Recordset
+Dim SQL         As String
+Dim ln          As Long
+Dim col         As Integer
+Dim W           As Worksheet
+Dim UltCel      As Range
+
+Dim vID         As Long
+Dim vIndicador  As Integer
+Dim vNome       As String
+Dim vDataNasc   As Date
+Dim vSexo       As String
+Dim vCPF        As String
+Dim vCEP        As String
+Dim vNumCasa    As Integer
+Dim vTelefone   As String
+Dim vEmail      As String
+Dim vLogin      As String
+Dim vDataCad    As Date
+
+
+Set W = Sheets("CLIENTES")
+Set UltCel = W.Cells(W.Rows.Count, 1).End(xlUp)
+
+W.Select
+ln = 2
+col = 1
+
+conn.Open "Provider=SQLNCLI11;Server=CARLACAROLINECS\SQLSERVER;Database=SQL_DB_3;Trusted_Connection=yes;"
+
+Do While ln <= UltCel.Row
+    
+    vID = W.Cells(ln, col)
+    vIndicador = W.Cells(ln, col + 1)
+    vNome = Trim(W.Cells(ln, col + 2))
+    vCPF = W.Cells(ln, col + 3)
+    vSexo = W.Cells(ln, col + 4)
+    vDataNasc = W.Cells(ln, col + 5)
+    vCEP = W.Cells(ln, col + 6)
+    vNumCasa = W.Cells(ln, col + 7)
+    vTelefone = W.Cells(ln, col + 8)
+    vEmail = W.Cells(ln, col + 9)
+    vDataCad = W.Cells(ln, col + 10)
+    vLogin = UCase(Environ("Username"))
+    
+    SQL = "INSERT INTO dbo.Clientes"
+    SQL = SQL & " (id, indicador, nome, CPF, sexo, data_nascimento, CEP, num_casa, telefone, email, data_cadastro, login_cadastro)"
+    SQL = SQL & " VALUES "
+    SQL = SQL & " (" & vID & ", "
+    SQL = SQL & "'" & vIndicador & "', "
+    SQL = SQL & "'" & vNome & "', "
+    SQL = SQL & "'" & vCPF & "', "
+    SQL = SQL & "'" & vSexo & "',"
+    SQL = SQL & "'" & vDataNasc & "',"
+    SQL = SQL & "'" & vCEP & "',"
+    SQL = SQL & "'" & vNumCasa & "',"
+    SQL = SQL & "'" & vTelefone & "',"
+    SQL = SQL & "'" & vEmail & "',"
+    SQL = SQL & "'" & vDataCad & "',"
+    SQL = SQL & "'" & vLogin & "')"
+
+    rs.Open SQL, conn
+    
+    ln = ln + 1
+    
+Loop
+
+conn.Close
+
+MsgBox "Concluído"
+
+Set conn = Nothing
+Set rs = Nothing
+Set W = Nothing
+Set UltCel = Nothing
+
+End Sub
+
+
+-- Tabela Pagamentos
+
+Private Sub btExecuta_Click()
+
+Dim conn        As New ADODB.Connection
+Dim rs          As New ADODB.Recordset
+Dim SQL         As String
+Dim ln          As Long
+Dim col         As Integer
+Dim W           As Worksheet
+Dim UltCel      As Range
+
+Dim vID         As Long
+Dim vId_cliente As Integer
+Dim vPago       As Boolean
+Dim vMesAno     As String
+Dim vValor      As Double
+Dim vDesconto   As Double
+Dim vLogin      As String
+Dim vDataCad    As Date
+
+
+Set W = Sheets("PAGAMENTOS")
+Set UltCel = W.Cells(W.Rows.Count, 1).End(xlUp)
+
+W.Select
+ln = 2
+col = 1
+
+conn.Open "Provider=SQLNCLI11;Server=CARLACAROLINECS\SQLSERVER;Database=SQL_DB_3;Trusted_Connection=yes;"
+
+Do While ln <= UltCel.Row
+    
+    vID = W.Cells(ln, col)
+    vId_cliente = W.Cells(ln, col + 1)
+    vPago = Trim(W.Cells(ln, col + 2))
+    vMesAno = W.Cells(ln, col + 3)
+    vValor = W.Cells(ln, col + 4)
+    vDesconto = W.Cells(ln, col + 5)
+    vDataCad = W.Cells(ln, col + 6)
+    vLogin = UCase(Environ("Username"))
+    
+    SQL = "INSERT INTO dbo.Clientes"
+    SQL = SQL & " (id, id_cliente, pago, mes_ano, valor, desconto, data_cadastro, login_cadastro)"
+    SQL = SQL & " VALUES "
+    SQL = SQL & " (" & vID & ", "
+    SQL = SQL & "'" & vId_cliente & "', "
+    SQL = SQL & "'" & vPago & "', "
+    SQL = SQL & "'" & vMesAno & "', "
+    SQL = SQL & "'" & vValor & "',"
+    SQL = SQL & "'" & vDesconto & "',"
+    SQL = SQL & "'" & vDataCad & "',"
+    SQL = SQL & "'" & vLogin & "')"
+
+    rs.Open SQL, conn
+    
+    ln = ln + 1
+    
+Loop
+
+conn.Close
+
+MsgBox "Concluído"
+
+Set conn = Nothing
+Set rs = Nothing
+Set W = Nothing
+Set UltCel = Nothing
+
+End Sub
